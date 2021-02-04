@@ -1,19 +1,16 @@
 spring:
   h2.console:
-      enabled: true
-      path: '/console'
+    enabled: true
+    path: '/console'
   datasource:
-      url: 'jdbc:h2:file:/home/arkadiusz/Pulpit/kurs springboot/todo-db'
+    url: 'jdbc:h2:file:/home/arkadiusz/Pulpit/kurs springboot/todo-db'
+    username: sa
+  jpa:
+    hibernate:
+      ddl-auto: validate
 
 
 
 
 
-
-
-
-#tak wygladaloby to gdyby dac application.properties
-#spring.h2.console.enabled=true
-#spring.h2.console.path=/console
-#spring.datasource.url=jdbc:h2:file:/home/arkadiusz/Pulpit/kurs springboot/todo-db
 
