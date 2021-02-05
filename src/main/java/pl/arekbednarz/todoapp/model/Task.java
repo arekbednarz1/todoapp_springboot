@@ -1,10 +1,10 @@
 package pl.arekbednarz.todoapp.model;
 
 
-import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="tasks")
@@ -13,11 +13,10 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message="Description must be not null")
     private String description;
-
     private boolean done;
+    private LocalDateTime deadline;
 
 
     public Task() {
@@ -43,7 +42,15 @@ public class Task {
         return done;
     }
 
-    public void setDone(boolean done) {
+    public void setDone(final boolean done) {
         this.done = done;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
     }
 }

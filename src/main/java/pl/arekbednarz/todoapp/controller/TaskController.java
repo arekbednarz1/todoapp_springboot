@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.arekbednarz.todoapp.model.Task;
 import pl.arekbednarz.todoapp.model.TaskRepository;
@@ -80,6 +81,20 @@ public class TaskController {
         }
         toUpdate.setId(id);
         repository.save(toUpdate);
+        return ResponseEntity.noContent().build();
+    }
+
+
+
+//    transakcja musi byc na publicznej metodzie. ta metoda zmienia boolean true false
+    @Transactional
+    @PatchMapping("/tasks/{id}")
+    public ResponseEntity<?> toggleTask(@PathVariable long id){
+        if (!repository.existsById(id)){
+            ResponseEntity.notFound().build();
+        }
+        repository.findById(id)
+                .ifPresent(task -> task.setDone(!task.isDone()));
         return ResponseEntity.noContent().build();
     }
 }
