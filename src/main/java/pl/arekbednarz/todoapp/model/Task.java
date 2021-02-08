@@ -2,6 +2,8 @@ package pl.arekbednarz.todoapp.model;
 
 
 
+import org.hibernate.annotations.Target;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -18,9 +20,19 @@ public class Task {
     private boolean done;
     private LocalDateTime deadline;
 
+    @Embedded
+//    zmiana nazw atrybutow z audit
+//    @AttributeOverrides
+    private Audit audit= new Audit();
+
+    @ManyToOne
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup group;
+
+
+
+
 //    @Transient mowi o tym ze nie chce miec pola w bazie
-    private LocalDateTime createdOn;
-    private LocalDateTime updatedOn;
 
 
     public Task() {
@@ -58,24 +70,21 @@ public class Task {
         this.deadline = deadline;
     }
 
+    public TaskGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(TaskGroup group) {
+        this.group = group;
+    }
+
     public void updateFrom(final Task source){
         description = source.description;
         done = source.done;
         deadline = source.deadline;
+        group = source.group;
 
 
-    }
-
-//    adnotacja mowi ze to ma byc wykonane przed zapisaniem do bazy
-
-    @PrePersist
-    void prePersist(){
-        createdOn = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    void preMerge(){
-        updatedOn = LocalDateTime.now();
     }
 
 }
