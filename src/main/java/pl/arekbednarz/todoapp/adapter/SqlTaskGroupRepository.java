@@ -16,4 +16,7 @@ interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<Task
 //    zzapytanie HQL
     @Query("from TaskGroup g join fetch g.tasks")
     List<TaskGroup>findAll();
+
+    @Override
+    boolean existsByDoneIsFalseAndProjectId(Integer projectId);
 }
