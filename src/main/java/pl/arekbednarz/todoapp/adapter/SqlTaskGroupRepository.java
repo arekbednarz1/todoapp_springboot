@@ -14,7 +14,7 @@ interface SqlTaskGroupRepository extends TaskGroupRepository, JpaRepository<Task
     @Override
 //    zapytanie olewa lazy loading kiedy czyta grupe pobiera od razu wszystkie taski dla tej grupy
 //    zzapytanie HQL
-    @Query("from TaskGroup g join fetch g.tasks")
+    @Query("select distinct g from TaskGroup g join fetch g.tasks")
     List<TaskGroup>findAll();
 
     @Override

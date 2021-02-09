@@ -35,7 +35,13 @@ public class Task {
 //    @Transient mowi o tym ze nie chce miec pola w bazie
 
 
-    public Task() {
+    Task() {
+    }
+
+
+    public Task(String description, LocalDateTime deadline) {
+        this.description = description;
+        this.deadline = deadline;
     }
 
     public Long getId() {
