@@ -18,6 +18,9 @@ public class Project {
     private Set<TaskGroup> groups;
 
 
+    public Project() {
+    }
+
     public int getId() {
         return id;
     }

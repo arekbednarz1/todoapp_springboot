@@ -32,19 +32,23 @@ public class ProjectService {
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
-        if (config.getTemplate().isAllowMultipleTasks() && groupRepository.existsByDoneIsFalseAndProjectId(projectId)) {
-            throw new IllegalStateException("Tylko 1 nieskończona grupa w projekcie");
+        if (!config.getTemplate().isAllowMultipleTasks() && groupRepository.existsByDoneIsFalseAndProjectId(projectId)) {
+            throw new IllegalStateException("Only one undone group from project is allowed");
         }
-        TaskGroup result = projectRepository.findById(projectId).map(project -> {
-            var target = new TaskGroup();
-            target.setDescription(project.getDescription());
-            target.setTasks(project.getStep().stream()
-                    .map(step -> new Task(step.getDescription(), deadline.plusDays(step.getDaysToDeadline()))
-                    ).collect(Collectors.toSet())
+        TaskGroup result = projectRepository.findById(projectId)
+                .map(project -> {
+                    var target = new TaskGroup();
+                    target.setDescription(project.getDescription());
+                    target.setTasks(
+                            project.getStep().stream()
+                                    .map(step -> new Task(
+                                            step.getDescription(),
+                                            deadline.plusDays(step.getDaysToDeadline()))
+                                    ).collect(Collectors.toSet())
             );
-            return target;
-        }).orElseThrow(() -> new IllegalArgumentException("Project z tym id nie znaleziona"));
-
+                    target.setProject(project);
+                    return groupRepository.save(target);
+        }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
         return new GroupReadModel(result);
 
     }
