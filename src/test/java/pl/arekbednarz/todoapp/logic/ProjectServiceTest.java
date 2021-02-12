@@ -3,17 +3,12 @@ package pl.arekbednarz.todoapp.logic;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.arekbednarz.todoapp.TaskConfigurationProperties;
-import pl.arekbednarz.todoapp.model.ProjectRepository;
-import pl.arekbednarz.todoapp.model.TaskGroup;
-import pl.arekbednarz.todoapp.model.TaskGroupRepository;
+import pl.arekbednarz.todoapp.model.*;
 import pl.arekbednarz.todoapp.model.projection.GroupReadModel;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
@@ -87,22 +82,42 @@ class ProjectServiceTest {
 //      given
         var today = LocalDate.now().atStartOfDay();
 //        and
+        var project =  projectWith("bartest", Set.of(-1,-2));
         var mockRepository = mock(ProjectRepository.class);
-        when(mockRepository.findById(anyInt())).thenReturn(Optional.empty());
+        when(mockRepository.findById(anyInt()))
+                .thenReturn(Optional.of(project));
 //and
-        TaskGroupRepository inMemory = inMemoryGroupRepository();
-        var countBeforeCall = inMemoryGroupRepository().count();
-
+        InMemoryGroupRepository inMemory = inMemoryGroupRepository();
+        int countBeforeCall = inMemoryGroupRepository().count();
 //        and
         TaskConfigurationProperties mockConfig = configurationReturning(true);
-//        sustem under test
+//        system under test
         var toTest = new ProjectService(mockRepository, inMemory, mockConfig);
 //        when
         GroupReadModel result = toTest.createGroup(today,1);
 //        then
-//        assertThat(result);
+//        assertThat(result)
+//                .hasFieldOrPropertyWithValue("description","bartest");
+        assertThat(result.getDescription()).isEqualTo("bartest");
+        assertThat(result.getDeadline()).isEqualTo(today.minusDays(1));
         assertThat(countBeforeCall+ 1).isNotEqualTo(inMemoryGroupRepository().count());
     }
+
+    private Project projectWith(String projectDescription, Set<Integer>daysToDeadline){
+        var result = mock(Project.class);
+        when(result.getDescription()).thenReturn(projectDescription);
+        Set<ProjectStep> steps = daysToDeadline.stream().map(days->{
+            var step = mock(ProjectStep.class);
+            when(step.getDescription()).thenReturn("test");
+            when(step.getDaysToDeadline()).thenReturn(days);
+            return step;
+        }).collect(Collectors.toSet());
+        when(result.getStep()).thenReturn(steps);
+        return result;
+    }
+
+
+
 
     private InMemoryGroupRepository inMemoryGroupRepository() {
        return new InMemoryGroupRepository();
@@ -132,7 +147,9 @@ class ProjectServiceTest {
         public TaskGroup save(TaskGroup entity) {
             if (entity.getId() != 0) {
                 try {
-                    TaskGroup.class.getDeclaredField("id").set(entity, ++index);
+                    var field = TaskGroup.class.getDeclaredField("id");
+                    field.setAccessible(true);
+                    field.set(entity, ++index);
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     throw new RuntimeException(e);
                 }

@@ -25,13 +25,11 @@ import java.util.stream.Collectors;
 //@ApplicationScope
 public class TaskGroupService {
     private TaskGroupRepository repository;
-    private TaskConfigurationProperties config;
     private TaskRepository taskRepository;
 
 
-    public TaskGroupService(TaskGroupRepository repository, TaskConfigurationProperties config, TaskRepository taskRepository) {
+    public TaskGroupService(TaskGroupRepository repository, TaskRepository taskRepository) {
         this.repository = repository;
-        this.config = config;
         this.taskRepository = taskRepository;
     }
 
@@ -48,9 +46,9 @@ public class TaskGroupService {
 
     public void toggleGroup(int groupId) {
         if (taskRepository.existsByDoneIsFalseAndGroupId(groupId)) {
-            throw new IllegalStateException("Nie mozna wykonac dopoki jest niewykoany task");
+            throw new IllegalStateException("Group has undone task. Done all tasks first");
         }
-        TaskGroup result = repository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup z tym id nie znaleziono"));
+        TaskGroup result = repository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
         result.setDone(!result.isDone());
         repository.save(result);
     }
