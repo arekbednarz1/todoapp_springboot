@@ -5,6 +5,7 @@ import jdk.jfr.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class TaskController {
 
     @Autowired
 //    Autowired nie trzeba do wstrzykiwania
-    public TaskController(TaskRepository repository) {
+     TaskController(TaskRepository repository) {
         this.repository = repository;
     }
 

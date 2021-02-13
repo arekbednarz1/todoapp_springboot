@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 //scope mowi jak obiekt powinien byc wstrzykiwany np wzorce projektowe
 //scope request uzywamy aby w obrebie jednego żądania mieć unikalną instancje serwisu
 //scope aplication servlet context
-@Service
+//@Service
 //@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 //@RequestScope
 //@ApplicationScope
