@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.arekbednarz.todoapp.TaskConfigurationProperties;
 import pl.arekbednarz.todoapp.model.ProjectRepository;
+import pl.arekbednarz.todoapp.model.TaskGroup;
 import pl.arekbednarz.todoapp.model.TaskGroupRepository;
 import pl.arekbednarz.todoapp.model.TaskRepository;
 
@@ -16,9 +17,11 @@ class LogicConfiguration {
     ProjectService projectService(
            final ProjectRepository projectRepository,
            final TaskGroupRepository groupRepository,
-           final TaskConfigurationProperties config){
+           final TaskConfigurationProperties config,
+           final TaskGroupService taskGroupService
+    ){
 
-        return new ProjectService(projectRepository,groupRepository,config);
+        return new ProjectService(projectRepository,groupRepository,config, taskGroupService);
     }
 
     @Bean

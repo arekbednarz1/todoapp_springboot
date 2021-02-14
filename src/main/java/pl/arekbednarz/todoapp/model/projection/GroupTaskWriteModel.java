@@ -1,6 +1,7 @@
 package pl.arekbednarz.todoapp.model.projection;
 
 import pl.arekbednarz.todoapp.model.Task;
+import pl.arekbednarz.todoapp.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -25,7 +26,7 @@ public class GroupTaskWriteModel {
         this.deadline = deadline;
     }
 
-    public Task toTask(){
+    public Task toTask(TaskGroup result){
         return new Task(description, deadline);
     }
 }
