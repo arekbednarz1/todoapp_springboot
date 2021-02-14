@@ -8,9 +8,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import pl.arekbednarz.todoapp.model.Task;
+import pl.arekbednarz.todoapp.model.TaskGroup;
 import pl.arekbednarz.todoapp.model.TaskRepository;
 
 import javax.sql.DataSource;
+import java.lang.reflect.Field;
 import java.util.*;
 
 @Configuration
@@ -35,7 +37,7 @@ import java.util.*;
     @Profile("integration")
     TaskRepository testRepo(){
         return new TaskRepository() {
-            private Map<Integer, Task> tasks= new HashMap<>();
+            private Map<Long, Task> tasks= new HashMap<>();
 
             @Override
             public List<Task> findAll() {
@@ -49,7 +51,17 @@ import java.util.*;
 
             @Override
             public Task save(Task entity) {
-                return tasks.put(tasks.size()+1,entity );
+                long key = tasks.size()+1;
+                try {
+                   var field = Task.class.getDeclaredField("id");
+                    field.setAccessible(true);
+                    field.set(entity,key);
+
+                } catch (NoSuchFieldException | IllegalAccessException e){
+                    throw new RuntimeException(e);
+                }
+                tasks.put(key,entity);
+                return tasks.get(key);
             }
 
             @Override
