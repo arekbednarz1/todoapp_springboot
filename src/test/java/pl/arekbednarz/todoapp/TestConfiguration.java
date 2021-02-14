@@ -6,16 +6,32 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import pl.arekbednarz.todoapp.model.Task;
 import pl.arekbednarz.todoapp.model.TaskRepository;
 
+import javax.sql.DataSource;
 import java.util.*;
 
 @Configuration
  class TestConfiguration {
 
+    @Bean
+    @Primary
+    @Profile("!integration")
+    DataSource e2eTestDataSource(){
+        var result = new DriverManagerDataSource("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1","sa","");
+        result.setDriverClassName("org.h2.Driver");
+        return result;
+    }
+
+
+
+
+
 //    repozytorium symulujące baze danych przechowywane w pamieci
     @Bean
+    @Primary
     @Profile("integration")
     TaskRepository testRepo(){
         return new TaskRepository() {
