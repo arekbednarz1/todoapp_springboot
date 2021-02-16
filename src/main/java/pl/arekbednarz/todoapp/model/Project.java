@@ -37,19 +37,19 @@ public class Project {
         this.description = description;
     }
 
-    public Set<TaskGroup> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(Set<TaskGroup> groups) {
-        this.groups = groups;
-    }
-
     public Set<ProjectStep> getStep() {
         return step;
     }
 
     public void setStep(Set<ProjectStep> step) {
         this.step = step;
+    }
+
+    public Set<TaskGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<TaskGroup> groups) {
+        this.groups = groups;
     }
 }

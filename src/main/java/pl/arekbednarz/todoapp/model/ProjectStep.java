@@ -18,20 +18,31 @@ public class ProjectStep {
     @JoinColumn(name = "project_id")
     private Project project;
 
-
     public int getId() {
         return id;
+    }
+
+     void setId(int id) {
+        this.id = id;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getDaysToDeadline() {
         return daysToDeadline;
     }
 
-    public Project getProject() {
+    public void setDaysToDeadline(int daysToDeadline) {
+        this.daysToDeadline = daysToDeadline;
+    }
+
+    Project getProject() {
         return project;
     }
 

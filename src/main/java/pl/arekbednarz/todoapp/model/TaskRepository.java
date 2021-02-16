@@ -16,6 +16,7 @@ public interface TaskRepository {
     boolean existsById(Long id);
     boolean existsByDoneIsFalseAndGroupId(Integer groupId);
     List<Task> findAllByGroupId(Integer groupId);
+    ProjectStep save(ProjectStep entity);
 
 
 }

@@ -23,11 +23,11 @@ public class GroupWriteModel {
         return tasks;
     }
 
-    public void setTasks(Set<GroupTaskWriteModel> tasks) {
+    public void setTasks(final Set<GroupTaskWriteModel> tasks) {
         this.tasks = tasks;
     }
 
-    public TaskGroup toGroup(Project project){
+    public TaskGroup toGroup(final Project project){
         var result = new TaskGroup();
         result.setDescription(description);
         result.setTasks(

@@ -1,13 +1,16 @@
 package pl.arekbednarz.todoapp.model.projection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import pl.arekbednarz.todoapp.model.Project;
 import pl.arekbednarz.todoapp.model.ProjectStep;
+import pl.arekbednarz.todoapp.model.TaskRepository;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProjectWriteModel {
 
@@ -20,6 +23,7 @@ public class ProjectWriteModel {
     public ProjectWriteModel(){
         steps.add(new ProjectStep());
     }
+
 
 
     public String getDescription() {
@@ -42,7 +46,9 @@ public class ProjectWriteModel {
         var result = new Project();
         result.setDescription(description);
         steps.forEach(step -> step.setProject(result));
-        result.setStep(new HashSet<>(steps));
+        Set<ProjectStep>step=new HashSet<>();
+        step.addAll(steps);
+        result.setStep(step);
         return result;
     }
 

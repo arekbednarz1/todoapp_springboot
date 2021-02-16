@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import pl.arekbednarz.todoapp.model.ProjectStep;
 import pl.arekbednarz.todoapp.model.Task;
 import pl.arekbednarz.todoapp.model.TaskGroup;
 import pl.arekbednarz.todoapp.model.TaskRepository;
@@ -87,6 +88,11 @@ import java.util.*;
             @Override
             public List<Task> findAllByGroupId(Integer groupId) {
                 return List.of();
+            }
+
+            @Override
+            public ProjectStep save(ProjectStep entity) {
+                return null;
             }
         };
     }
