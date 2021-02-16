@@ -27,6 +27,6 @@ public class GroupTaskWriteModel {
     }
 
     public Task toTask(TaskGroup result){
-        return new Task(description, deadline);
+        return new Task(description, deadline, result);
     }
 }

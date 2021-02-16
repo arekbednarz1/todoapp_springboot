@@ -1,5 +1,6 @@
 package pl.arekbednarz.todoapp.logic;
 
+import org.springframework.stereotype.Service;
 import pl.arekbednarz.todoapp.TaskConfigurationProperties;
 import pl.arekbednarz.todoapp.model.*;
 import pl.arekbednarz.todoapp.model.projection.GroupReadModel;

@@ -8,14 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import pl.arekbednarz.todoapp.logic.TaskService;
 import pl.arekbednarz.todoapp.model.Task;
 import pl.arekbednarz.todoapp.model.TaskRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 
 @RestController
@@ -24,12 +22,10 @@ public class TaskController {
 
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository repository;
-    private final TaskService service;
 
     @Autowired
-     TaskController(TaskRepository repository, TaskService service) {
+     TaskController(TaskRepository repository) {
         this.repository = repository;
-        this.service = service;
     }
 
     @PostMapping
@@ -40,9 +36,9 @@ public class TaskController {
 
 
     @GetMapping(params = {"!sort","!page","!size"})
-   CompletableFuture<ResponseEntity<List<Task>>> readAllTasks(){
+    ResponseEntity<List<Task>> readAllTasks(){
         logger.warn("Exposing all the tasks!");
-        return service.findAllAsunc().thenApply(ResponseEntity::ok);
+        return ResponseEntity.ok(repository.findAll());
     }
 
 //    pageable to obiekt parametr stronicowania
@@ -56,7 +52,7 @@ public class TaskController {
 //    @RequestMapping(method = RequestMethod.GET, path = "/{id}")
     ResponseEntity<Task>readTask(@PathVariable long id){
         return repository.findById(id)
-                .map(task -> ResponseEntity.ok(task))
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
     @GetMapping("/search/done")

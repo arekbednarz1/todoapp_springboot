@@ -83,6 +83,11 @@ import java.util.*;
             public boolean existsByDoneIsFalseAndGroupId(Integer groupId) {
                 return false;
             }
+
+            @Override
+            public List<Task> findAllByGroupId(Integer groupId) {
+                return List.of();
+            }
         };
     }
 }

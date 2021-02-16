@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 //@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
 //@RequestScope
 //@ApplicationScope
+
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;
@@ -33,7 +34,7 @@ public class TaskGroupService {
         this.taskRepository = taskRepository;
     }
 
-    public GroupReadModel createGroup(GroupWriteModel source) {
+    public GroupReadModel createGroup(final GroupWriteModel source) {
         TaskGroup result = repository.save(source.toGroup());
         return new GroupReadModel(result);
     }
@@ -48,7 +49,8 @@ public class TaskGroupService {
         if (taskRepository.existsByDoneIsFalseAndGroupId(groupId)) {
             throw new IllegalStateException("Group has undone task. Done all tasks first");
         }
-        TaskGroup result = repository.findById(groupId).orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
+        TaskGroup result = repository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
         result.setDone(!result.isDone());
         repository.save(result);
     }
