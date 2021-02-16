@@ -7,10 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.context.annotation.RequestScope;
 import pl.arekbednarz.todoapp.TaskConfigurationProperties;
-import pl.arekbednarz.todoapp.model.Task;
-import pl.arekbednarz.todoapp.model.TaskGroup;
-import pl.arekbednarz.todoapp.model.TaskGroupRepository;
-import pl.arekbednarz.todoapp.model.TaskRepository;
+import pl.arekbednarz.todoapp.model.*;
 import pl.arekbednarz.todoapp.model.projection.GroupReadModel;
 import pl.arekbednarz.todoapp.model.projection.GroupWriteModel;
 
@@ -35,8 +32,7 @@ public class TaskGroupService {
     }
 
     public GroupReadModel createGroup(final GroupWriteModel source) {
-        TaskGroup result = repository.save(source.toGroup());
-        return new GroupReadModel(result);
+        return createGroup(source,null);
     }
 
     public List<GroupReadModel> readAll() {
@@ -53,6 +49,11 @@ public class TaskGroupService {
                 .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
         result.setDone(!result.isDone());
         repository.save(result);
+    }
+
+    public GroupReadModel createGroup(GroupWriteModel source, Project project) {
+        TaskGroup result = repository.save(source.toGroup(project));
+        return new GroupReadModel(result);
     }
 }
 

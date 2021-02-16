@@ -6,6 +6,7 @@ import pl.arekbednarz.todoapp.model.*;
 import pl.arekbednarz.todoapp.model.projection.GroupReadModel;
 import pl.arekbednarz.todoapp.model.projection.GroupTaskWriteModel;
 import pl.arekbednarz.todoapp.model.projection.GroupWriteModel;
+import pl.arekbednarz.todoapp.model.projection.ProjectWriteModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,9 +32,10 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Project save(Project toSave) {
-        return projectRepository.save(toSave);
+    public Project save(ProjectWriteModel toSave) {
+        return projectRepository.save(toSave.toProject());
     }
+
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
         if (!config.getTemplate().isAllowMultipleTasks() && groupRepository.existsByDoneIsFalseAndProjectId(projectId)) {
@@ -53,7 +55,7 @@ public class ProjectService {
                                     }
                                     ).collect(Collectors.toSet())
             );
-                   return service.createGroup(targetGroup);
+                   return service.createGroup(targetGroup,project);
         }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
         return result;
 
