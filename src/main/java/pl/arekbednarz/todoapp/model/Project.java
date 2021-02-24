@@ -7,9 +7,12 @@ import java.util.Set;
 @Entity
 @Table(name = "projects")
 public class Project {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @NotBlank(message = "Project description must be not null")
     private String description;
     @OneToMany(mappedBy = "project")
@@ -25,7 +28,7 @@ public class Project {
         return id;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -33,7 +36,7 @@ public class Project {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -45,7 +48,7 @@ public class Project {
         this.step = step;
     }
 
-    public Set<TaskGroup> getGroups() {
+    Set<TaskGroup> getGroups() {
         return groups;
     }
 

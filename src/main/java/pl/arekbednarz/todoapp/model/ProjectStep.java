@@ -22,7 +22,7 @@ public class ProjectStep {
         return id;
     }
 
-     void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -46,7 +46,7 @@ public class ProjectStep {
         return project;
     }
 
-    public void setProject(Project project) {
+    public void setProject(final Project project) {
         this.project = project;
     }
 }

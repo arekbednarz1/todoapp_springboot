@@ -34,7 +34,10 @@ public class TaskGroupService {
     public GroupReadModel createGroup(final GroupWriteModel source) {
         return createGroup(source,null);
     }
-
+    GroupReadModel createGroup(GroupWriteModel source, final Project project) {
+        TaskGroup result = repository.save(source.toGroup(project));
+        return new GroupReadModel(result);
+    }
     public List<GroupReadModel> readAll() {
         return repository.findAll().stream()
                 .map(GroupReadModel::new)
@@ -51,9 +54,6 @@ public class TaskGroupService {
         repository.save(result);
     }
 
-    public GroupReadModel createGroup(GroupWriteModel source, Project project) {
-        TaskGroup result = repository.save(source.toGroup(project));
-        return new GroupReadModel(result);
-    }
+
 }
 

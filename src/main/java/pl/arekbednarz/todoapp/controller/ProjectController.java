@@ -48,6 +48,7 @@ public class ProjectController {
 
         model.addAttribute("project", new ProjectWriteModel());
         model.addAttribute("message", "Dodano projekt");
+        model.addAttribute("projects", getProjects());
         return "projects";
 
     }
@@ -71,7 +72,7 @@ public class ProjectController {
             model.addAttribute("message","Dodano grupę");
 
         }catch (IllegalStateException| IllegalArgumentException e){
-            model.addAttribute("message","Błąd");
+            model.addAttribute("message","Błąd podczas tworzenia grupy");
         }
         return "projects";
     }

@@ -32,7 +32,7 @@ public class ProjectService {
         return projectRepository.findAll();
     }
 
-    public Project save(ProjectWriteModel toSave) {
+    public Project save(final ProjectWriteModel toSave) {
         return projectRepository.save(toSave.toProject());
     }
 
@@ -55,6 +55,7 @@ public class ProjectService {
                                     }
                                     ).collect(Collectors.toSet())
             );
+
                    return service.createGroup(targetGroup,project);
         }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
 

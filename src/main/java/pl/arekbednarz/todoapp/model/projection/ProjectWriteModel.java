@@ -46,8 +46,7 @@ public class ProjectWriteModel {
         var result = new Project();
         result.setDescription(description);
         steps.forEach(step -> step.setProject(result));
-        Set<ProjectStep>step=new HashSet<>();
-        step.addAll(steps);
+        Set<ProjectStep> step = new HashSet<>(steps);
         result.setStep(step);
         return result;
     }
