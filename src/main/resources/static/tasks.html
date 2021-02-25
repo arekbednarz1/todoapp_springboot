@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,11 +55,11 @@
         function createTask({id, description, deadline, done}){
             const result =document.querySelector('li');
             result.innerHTML = `
-            <label>
-                <input type="checkbox" ${done ? 'checked' : ''}/>
-                ${description}
-                <small>${deadline && deadline.replace('T', ' ')}</small>
-            </label>
+                 <label>
+                     <input type="checkbox" ${done ? 'checked' : ''}/>
+                     ${description}
+                     <small>${deadline && deadline.replace('T', ' ')}</small>
+                 </label>
             `;
             result.querySelector('input').addEventListener('click', async (e)=>{
                 const response = await fetch(`/tasks/${id}`, {method: 'PATCH'});
@@ -67,11 +67,9 @@
                     e.target.checked = !e.target.checked;
                 }
             });
-           return result
+           return result;
         }
     })();
 </script>
-
-
 </body>
 </html>

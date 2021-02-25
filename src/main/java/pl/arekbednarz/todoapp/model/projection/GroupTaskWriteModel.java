@@ -3,9 +3,11 @@ package pl.arekbednarz.todoapp.model.projection;
 import pl.arekbednarz.todoapp.model.Task;
 import pl.arekbednarz.todoapp.model.TaskGroup;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 public class GroupTaskWriteModel {
+    @NotBlank(message="Description must be not null")
     private String description;
     private LocalDateTime deadline;
 

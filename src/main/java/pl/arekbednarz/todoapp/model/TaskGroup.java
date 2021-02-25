@@ -3,6 +3,10 @@ package pl.arekbednarz.todoapp.model;
 
 
 
+import com.fasterxml.jackson.annotation.*;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
+
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -14,10 +18,12 @@ public class TaskGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
     @NotBlank(message="Task groups description must be not null")
     private String description;
     private boolean done;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private Set<Task> tasks;
 

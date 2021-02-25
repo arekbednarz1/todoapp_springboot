@@ -2,6 +2,10 @@ package pl.arekbednarz.todoapp.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
@@ -35,7 +39,7 @@ public class Task {
 //    @Transient mowi o tym ze nie chce miec pola w bazie
 
 
-    Task() {
+    public Task() {
     }
 
     public Task(String description, LocalDateTime deadline) {
@@ -101,13 +105,5 @@ public class Task {
 
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", done=" + done +
-                ", deadline=" + deadline +
-                '}';
-    }
+
 }
