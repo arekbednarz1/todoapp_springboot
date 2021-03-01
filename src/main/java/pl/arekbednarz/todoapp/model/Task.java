@@ -2,10 +2,7 @@ package pl.arekbednarz.todoapp.model;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import org.hibernate.annotations.Target;
 
 import javax.persistence.*;
@@ -25,18 +22,13 @@ public class Task {
     private LocalDateTime deadline;
 
     @Embedded
-//    zmiana nazw atrybutow z audit
-//    @AttributeOverrides
     private Audit audit= new Audit();
 
     @ManyToOne
     @JoinColumn(name = "task_group_id")
+    @JsonBackReference
     private TaskGroup group;
 
-
-
-
-//    @Transient mowi o tym ze nie chce miec pola w bazie
 
 
     public Task() {

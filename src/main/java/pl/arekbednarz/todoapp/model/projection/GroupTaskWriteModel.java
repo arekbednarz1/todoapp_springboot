@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 public class GroupTaskWriteModel {
     @NotBlank(message="Description must be not null")
     private String description;
+    @NotBlank(message="Deadline must be not null")
     private LocalDateTime deadline;
 
 

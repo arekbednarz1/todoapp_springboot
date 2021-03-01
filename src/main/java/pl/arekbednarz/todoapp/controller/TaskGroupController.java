@@ -84,16 +84,13 @@ import java.util.List;
     }
 
 
-    @ModelAttribute("groups")
-    private List<GroupReadModel> getGroups() {
-        return service.readAll();
-    }
+
 
 
 
     @PostMapping(produces = MediaType.TEXT_HTML_VALUE, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     String addGroup(
-            @ModelAttribute("project") @Valid GroupWriteModel current,
+            @ModelAttribute("group") @Valid GroupWriteModel current,
             BindingResult bindingResult,
             Model model
     )
@@ -101,10 +98,11 @@ import java.util.List;
         if (bindingResult.hasErrors()){
             return "groups";
         }
+        List<GroupReadModel> listG = service.readAll();
         service.createGroup(current);
-        model.addAttribute("project", new ProjectWriteModel());
+        model.addAttribute("group", new GroupWriteModel());
         model.addAttribute("message", "Dodano grupe");
-        model.addAttribute("projects", getGroups());
+        model.addAttribute("groups", listG);
         return "groups";
 
     }

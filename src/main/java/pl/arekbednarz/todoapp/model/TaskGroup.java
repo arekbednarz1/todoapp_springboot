@@ -25,6 +25,7 @@ public class TaskGroup {
     private boolean done;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
+    @JsonManagedReference
     private Set<Task> tasks;
 
     @ManyToOne
